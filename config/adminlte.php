@@ -400,6 +400,10 @@ return [
                 'text' => 'Crear Salidas',
                 'route' => 'salida.create',
                 ],
+                [
+                    'text' => 'Aprobar Salidas',
+                    'route' => 'salida.create',
+                    ],
         ],
     ],
 ],
