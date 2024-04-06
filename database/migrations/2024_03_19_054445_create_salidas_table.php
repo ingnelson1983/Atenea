@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('salidas', function (Blueprint $table) {
             $table->id();
             $table->integer('id_usu');
-            $table->integer('proy_id_origen')->nullable();
+            $table->foreignId('proyecto_id')->constrained();
             $table->dateTime('fecha_Salida', $precision = 0)->nullable();
             $table->integer('cod_material_sinco')->nullable();
             $table->string('nom_material', 100)->nullable();

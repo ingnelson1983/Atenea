@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Almacen\Salidas;
 
 use App\Models\Salida;
 use App\Models\User;
+use App\Models\Proyecto;
 use App\Http\Controllers\Controller;
-//use App\Http\Requests\Almacen\Salidas\SalidaRequest;
+use App\Http\Requests\Almacen\Salidas\SalidaRequest;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;  
 //use App\Notifications\SalidaMaterial;
 
 
@@ -21,8 +22,15 @@ class SalidaController extends Controller
     public function index()
     { 
 
-        $salidas = Salida::all();
+        $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
+        INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
+        ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
 
+        $salidas = Salida::all();
+        //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
+        foreach ($salidas as $salida) {
+            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+        }
        // dd($salidas)
         return view ('almacen.salidas.index', compact('salidas'));
     }
@@ -32,16 +40,19 @@ class SalidaController extends Controller
      */
     public function create()
     {
-         //Consulta Materiales en el ERP. Aca le estamos diiendo que la conexion la haga desde sql server
-
+            //Consulta Materiales en el ERP. Aca le estamos diiendo que la conexion la haga desde sql server
+         $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
+         INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
+         ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
+         $proyectos_usuario = auth()->user()->proyectos;
         
-        return view('almacen.salidas.create');
+        return view('almacen.salidas.create', compact('materiales', 'proyectos_usuario'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(request $request)
+    public function store(SalidaRequest $request)
     {
 
        //dump and die
@@ -63,7 +74,8 @@ class SalidaController extends Controller
         // si le fuera a enviar un correo a un usuario proveniente del formulario, lo que hago es 
         //$usuario=User::find($request->id_usu); 
         //      $usuario->notify(new SalidaMaterial($salida));
-        
+
+            
         //Despues de realizar el insert, vamos al metodo index de aca del controlador, nuevamente
         return redirect()->route('salida.index');
     }
@@ -84,11 +96,18 @@ class SalidaController extends Controller
      */
     public function edit(String $id)
     {
-
+               //Consulta Materiales en el ERP. Aca le estamos diiendo que la conexion la haga desde sql server
+               $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
+               INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
+               ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
+                //dd($materiales);
                 //se llama el modelo Salida, y le enviamos el Id de la salida
                 $salida= Salida::find($id);
-                             //ahora se  le enviamos los datos a la vista que se llama edit
-                return view('almacen.salidas.edit', compact('salida'));
+                $nombrematerial = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+                
+                $proyectos_usuario = auth()->user()->proyectos;
+                //ahora se  le enviamos los datos a la vista que se llama edit
+                return view('almacen.salidas.edit', compact('salida', 'materiales','nombrematerial', 'proyectos_usuario'));
         
     }
 
@@ -98,9 +117,10 @@ class SalidaController extends Controller
     //El request son los datos que se van a enviar y el ID es para que se encuentre el producto a actualizar
     public function update(SalidaRequest $request, String $id)
     {
+      //  dd($request->all());
         //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
         Salida::find($id)->update($request->all());
-        return to_route('salidas.index');
+        return to_route('salida.index');
     }
 
     /**
@@ -108,7 +128,27 @@ class SalidaController extends Controller
      */
     public function destroy(String $id)
     {
+      
         Salida::destroy($id);
-        return to_route('salidas.index');
+        return to_route('salida.index');
+    }
+
+
+    public function aprobalmacen(Request $request, Salida $salida)
+    {
+        //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
+        //Salida::find($id)->update('estado'=>$id['aprobado']);
+
+        //dd($id);
+        /*
+		DB::table('salidas')
+        ->where("salidas.id", '=',  $id)
+        ->update(['salidas.estado'=> 'aprobado']);
+        */
+        
+        $salida->update($request->all());
+
+        return to_route('salida.index');
     }
 }
+

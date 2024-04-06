@@ -389,7 +389,7 @@ return [
             'url' => '#',
         ],
         [
-            'text' => 'Almacen',
+            'text' => 'ALMACEN',
             'icon'  => 'fas fa-building',
             'submenu' => [
                 [
@@ -404,8 +404,22 @@ return [
                     'text' => 'Aprobar Salidas',
                     'route' => 'salida.create',
                     ],
-        ],
+        ],    
     ],
+
+
+    [
+        'text' => 'USUARIOS',
+        'icon'  => 'fas fa-building',
+        'submenu' => [
+            [
+            'text' => 'Asignar Usu/Pro',
+            'route' => 'listarusuariosproyectos',
+            ],
+
+    ],    
+],
+
 ],
 
     /*
