@@ -78,19 +78,8 @@ Route::detele('/productos/{producto}', [ProductoController::class, 'destroy'])->
 
     Route::resource('/almacen/salidas/salida', SalidaController::class)->names('salida');
     Route::apiResource("v1/salidas", App\Http\Controllers\Api\V1\SalidaController::class);
-        
-    Route::put('/almacen/salidas/aprobalamacen/{salida?}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista');
-  
-     Route::get('/almacen/salidas/aprobalamacen/index', [SalidaController::class, 'indexaprobarsalidaalmacen'])->name('Rindex.salida.aprob.almacenista');
-     Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista');
-
-     Route::get('/almacen/salidas/aprobcoordadmin/index', [SalidaController::class, 'indexaprobarsalidacooradmin'])->name('Rindex.salida.aprob.coordadmin');
-     Route::put('/almacen/salidas/aprobcoordadmin/{salida}', [SalidaController::class, 'aprobarsalidacoordadmin'])->name('Rsalida.aprob.coordadmin');
-
-
-
-   Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobalmacen'])->name('salidas.aprobar.almacenista');
-
+    Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista');
+    Route::put('/almacen/salidas/aprobcoordadmin/{salida}', [SalidaController::class, 'aprobarsalidacoordadmin'])->name('Rsalida.aprob.coord.admin');
 
     //Ruta para  que llama al controlador, proyectocontroller y al metodo listar usuario proyecto y asociar usuario a proyectos
     Route::get('/usuario/proyectos/{usuario?}', [ProyectoController::class, 'listarUsuarioProyecto'])->name('listarusuariosproyectos');

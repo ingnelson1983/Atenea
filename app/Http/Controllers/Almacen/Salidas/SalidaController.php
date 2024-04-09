@@ -130,11 +130,27 @@ class SalidaController extends Controller
     {
       
         Salida::destroy($id);
-        return to_route('salida.index');
+        //Le pasamos a la vista index dos variables, para validar, si el registro  fue eliminado y mostrar el mensaje de eliminado correctamente
+        return to_route('salida.index')->with('eliminar', 'ok');
     }
 
+    public function indexaprobarsalidaalmacen()
+    { 
 
-    public function aprobalmacen(Request $request, Salida $salida)
+        $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
+        INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
+        ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
+
+        $salidas = Salida::all();
+        //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
+        foreach ($salidas as $salida) {
+            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+        }
+       // dd($salidas)
+        return view ('almacen.salidas.AprobAlmacen', compact('salidas'));
+    }
+
+    public function aprobarsalidaalmacen(Request $request, Salida $salida)
     {
         //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
         //Salida::find($id)->update('estado'=>$id['aprobado']);
@@ -148,7 +164,44 @@ class SalidaController extends Controller
         
         $salida->update($request->all());
 
-        return to_route('salida.index');
+        return to_route('Rindex.salida.aprob.almacenista');
     }
+
+        
+    public function indexaprobarsalidacooradmin()
+    { 
+
+        $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
+        INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
+        ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
+
+        $salidas = Salida::all();
+        //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
+        foreach ($salidas as $salida) {
+            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+        }
+       // dd($salidas)
+        return view ('almacen.salidas.AprobCoordAdmin', compact('salidas'));
+    }
+
+    public function aprobarsalidacoordadmin(Request $request, Salida $salida)
+    {
+        //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
+        //Salida::find($id)->update('estado'=>$id['aprobado']);
+
+        //dd($id);
+        /*
+		DB::table('salidas')
+        ->where("salidas.id", '=',  $id)
+        ->update(['salidas.estado'=> 'aprobado']);
+        */
+        
+        $salida->update($request->all());
+
+        return to_route('Rindex.salida.aprob.coordadmin');
+    }
+    
+
+
 }
 

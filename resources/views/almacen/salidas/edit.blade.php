@@ -4,7 +4,7 @@
 @section('title','content_header')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">CREAR SALIDA</h1>
+    <h1 class="m-0 text-dark">EDITAR SALIDA</h1>
 @stop
 
 @section('content')
@@ -17,29 +17,11 @@
                 @csrf
                 @method('PUT')
                 <div>
-                        <x-adminlte-input ID="id_usu"  name="id_usu" label="Id Usuario" placeholder="Ingrese Aqui el Id del usuario" type="number" label-class="text-lightblue"
-                                igroup-size="sm" min=1 max=100 value="{{$salida->id_usu}}">
-                                <x-slot name="prependSlot">
-                                        <div class="input-group-text">
-                                        <i class="fas fa-hashtag text-lightblue"></i>
-                                        </div>
-                                </x-slot>
-
-                                @if ($errors->has('id_usu'))
-                                <div class="badge badge-warning gap-2">
-                                        <p>{{$errors->first('id_usu')}}</p>
-                                </div>
-                                @endif
-                        </x-adminlte-input>
-
+                        <input type="hidden" name="id_usu" value="{{$salida->id_usu}}">
                 </div>
+
                 <div>
-
-
-
-
-
-                <x-adminlte-select-bs name="proyecto_id" for="proyecto_id"  id="proyecto_id"  label="Vehicle"  label-class="text-lightblue"
+                <x-adminlte-select-bs name="proyecto_id" for="proyecto_id"  id="proyecto_id"  label="Proyecto"  label-class="text-lightblue"
                 igroup-size="lg"  data-live-search
                 data-live-search-placeholder="Search..." data-show-tick>
                 <x-slot name="prependSlot">
@@ -61,14 +43,10 @@
 
 
                 <div>
-                                {{-- With prepend slot --}}
-                        <x-adminlte-input name="fecha_Salida" label="Fecha Salida" placeholder="Fecha de Salida" label-class="text-lightblue" value="{{$salida->fecha_Salida}}">
-                                <x-slot name="prependSlot">
-                                <div class="input-group-text">
-                                        <i class="fas fa-user text-lightblue"></i>
-                                </div>
-                                </x-slot>
-                        </x-adminlte-input>
+
+                        <div>
+                                <input type="hidden" name="fecha_Salida" value="{{now()}}">
+                        </div>
 
                                 @if ($errors->has('fecha_Salida'))
                                         <div class="badge badge-warning gap-2">
@@ -82,7 +60,7 @@
 
 
 
-                        <x-adminlte-select-bs name="cod_material_sinco"  class="js-example-tags" for="cod_material_sinco"  id="cod_material_sinco"   label="Vehicle" onchange="document.getElementById('nom_material').value=this.options[this.selectedIndex].text" label-class="text-lightblue"
+                        <x-adminlte-select-bs name="cod_material_sinco"  class="js-example-tags" for="cod_material_sinco"  id="cod_material_sinco"   label="Material/Producto" onchange="document.getElementById('nom_material').value=this.options[this.selectedIndex].text" label-class="text-lightblue"
                             igroup-size="lg" data-title="Seleccione Material" data-live-search
                             data-live-search-placeholder="Search..." data-show-tick>
                             <x-slot name="prependSlot">
@@ -105,13 +83,14 @@
 
                 <div>
                         {{-- With prepend slot --}}
-                <x-adminlte-input name="nom_material" label="Nom Material Sinco" placeholder="Nom Material Sinco" label-class="text-lightblue" value="{{$salida->nom_material}}">
-                        <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                                <i class="fas fa-user text-lightblue"></i>
-                        </div>
-                        </x-slot>
+                <x-adminlte-input type="hidden" name="nom_material" placeholder="Nom Material Sinco" label-class="text-lightblue" value="{{$salida->nom_material}}">
+
                 </x-adminlte-input>
+
+
+
+
+                
 
                         @if ($errors->has('nom_material'))
                                 <div class="badge badge-warning gap-2">
@@ -141,7 +120,7 @@
 
                 <div>
                         <x-adminlte-input ID="cantidad"  name="cantidad" label="Cantidad" placeholder="Ingrese Aqui la cantidad" type="number" label-class="text-lightblue"
-                                igroup-size="sm" min=1 max=100 value="{{$salida->cantidad}}">
+                                igroup-size="sm" min=1 value="{{$salida->cantidad}}">
                                 <x-slot name="prependSlot">
                                         <div class="input-group-text">
                                         <i class="fas fa-hashtag text-lightblue"></i>
@@ -195,14 +174,8 @@
 
 
                 <div>
-                        {{-- With prepend slot --}}
-                <x-adminlte-input name="estado" label="estado" placeholder="Estado" label-class="text-lightblue" value="{{$salida->estado}}">
-                        <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                                <i class="fas fa-user text-lightblue"></i>
-                        </div>
-                        </x-slot>
-                </x-adminlte-input>
+
+                <input type="hidden" name="estado" value="{{$salida->estado}}">
 
                         @if ($errors->has('estado'))
                                 <div class="badge badge-warning gap-2">
@@ -214,7 +187,7 @@
 
 
                 <button  type="submit" class="btn btn-outline btn-primary my-4">Actualizar</button>
-                <a class="btn btn-outline my-4" href="{{route('salidas.index')}}">Cancelar</a>
+                <a class="btn btn-outline my-4" href="{{route('salida.index')}}">Cancelar</a>
             </form>
     </div>
     

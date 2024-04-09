@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('Cod_Proyecto_Sinco');
             $table->string('Nombre_Proyecto', 200);
+            $table->string('Email_almacenista');
+            $table->string('Email_coord_administrativo');
             $table->timestamps();
         });
     }

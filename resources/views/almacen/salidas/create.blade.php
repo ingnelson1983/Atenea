@@ -27,7 +27,7 @@
 
 
 
-    <x-adminlte-select-bs name="proyecto_id" for="proyecto_id"  id="proyecto_id"  label="Vehicle" label-class="text-lightblue"
+    <x-adminlte-select-bs name="proyecto_id" for="proyecto_id"  id="proyecto_id"  label="Proyecto" label-class="text-lightblue"
         igroup-size="lg"  data-live-search
         data-live-search-placeholder="Search..." data-show-tick>
         <x-slot name="prependSlot">
@@ -51,7 +51,7 @@
 
 
 
-    <x-adminlte-select-bs class="js-example-tags" name="cod_material_sinco" for="cod_material_sinco"  id="cod_material_sinco"  label="Vehicle" onchange="document.getElementById('nom_material').value=this.options[this.selectedIndex].text"> label-class="text-lightblue"
+    <x-adminlte-select-bs class="js-example-tags" name="cod_material_sinco" for="cod_material_sinco"  id="cod_material_sinco"  label="Material/Producto" onchange="document.getElementById('nom_material').value=this.options[this.selectedIndex].text"> label-class="text-lightblue"
         igroup-size="lg" data-title="Seleccione Material" data-live-search
         data-live-search-placeholder="Search..." data-show-tick>
         <x-slot name="prependSlot">
@@ -70,13 +70,23 @@
 
 
 {{-- With prepend slot --}}
-<x-adminlte-input name="nom_material" label="Nom Material Sinco" placeholder="Nom Material Sinco" label-class="text-lightblue" value="{{ old('nom_material')}}">
-    <x-slot name="prependSlot">
-        <div class="input-group-text">
-            <i class="fas fa-user text-lightblue"></i>
-        </div>
-    </x-slot>
+<x-adminlte-input type="hidden" name="nom_material" placeholder="Nom Material Sinco" label-class="text-lightblue" value="">
+
 </x-adminlte-input>
+
+<div>
+    {{-- With prepend slot --}}
+
+    @if ($errors->has('nom_material'))
+            <div class="badge badge-warning gap-2">
+            <p>{{$errors->first('nom_material')}}</p>
+            </div>
+    @endif
+</div>
+
+
+
+
 
 
 {{-- With prepend slot --}}
@@ -90,7 +100,7 @@
 
 {{-- With append slot, number type, and sm size --}}
 <x-adminlte-input name="cantidad" label="Cantidad" placeholder="Cantidad" type="number" label-class="text-lightblue"
-    igroup-size="sm" min=1 max=1000 value="{{ old('cantidad')}}">
+    igroup-size="sm" min=1  value="{{ old('cantidad')}}">
     <x-slot name="prependSlot">
         <div class="input-group-text">
             <i class="fas fa-hashtag text-lightblue"></i>
@@ -144,8 +154,5 @@
 $(".js-example-tags").select2({
     tags: true
   });
-
-
-
   </script>
 @endsection
