@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Models\Proyecto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Almacen\Salidas\SalidaRequest;
+//use App\Notifications\SalidaMaterial;
 use App\Mail\SalidaMaterial;
-use App\Mail\SalidaMaterialEdicion;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
@@ -38,14 +38,6 @@ class SalidaController extends Controller
         return view ('almacen.salidas.index', compact('salidas'));
     }
 
-
-    public function indexsinsinco()
-    { 
-
-        $salidas = Salida::all();
-        return view ('almacen.salidas.indexsinsinco', compact('salidas'));
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -59,15 +51,6 @@ class SalidaController extends Controller
         
         return view('almacen.salidas.create', compact('materiales', 'proyectos_usuario'));
     }
-
-
-    public function createsinsinco()
-    {
-           $proyectos_usuario = auth()->user()->proyectos;
-        
-        return view('almacen.salidas.createsinsinco', compact('proyectos_usuario'));
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -93,31 +76,18 @@ class SalidaController extends Controller
         $usuario=User::find($request->id_usu); 
         // si le fuera a enviar un correo a un usuario proveniente del formulario, lo que hago es 
         //$usuario=User::find($request->id_usu); 
-        //      $usuario->notify(new SalidaMaterial($salida));
         $email_almacenista=$salida->Proyecto->Email_almacenista;
         $email_coord_administrativo=$salida->Proyecto->Email_coord_administrativo;
+       // dd($email_almacenista);
+     
         Mail::to($email_almacenista)->send(new SalidaMaterial($salida));
         Mail::to($email_coord_administrativo)->send(new SalidaMaterial($salida));
+        //$email_almacenista->notify(new SalidaMaterial($salida));
+        
+
             
         //Despues de realizar el insert, vamos al metodo index de aca del controlador, nuevamente
         return redirect()->route('salida.index');
-    }
-
-
-    public function storesinsinco(SalidaRequest $request)
-    {
-
-
-        Salida::create($request->all());
-        $salida = Salida::latest()->first();
-        $usuario=User::find($request->id_usu); 
-        $email_almacenista=$salida->Proyecto->Email_almacenista;
-        $email_coord_administrativo=$salida->Proyecto->Email_coord_administrativo;
-        Mail::to($email_almacenista)->send(new SalidaMaterial($salida));
-        Mail::to($email_coord_administrativo)->send(new SalidaMaterial($salida));
-            
-        //Despues de realizar el insert, vamos al metodo index de aca del controlador, nuevamente
-        return redirect()->route('salida.indexsinsinco');
     }
 
     /**
@@ -151,16 +121,6 @@ class SalidaController extends Controller
         
     }
 
-    public function editsinsinco(String $id)
-    {
-                $salida= Salida::find($id);
-                $proyectos_usuario = auth()->user()->proyectos;
-                //ahora se  le enviamos los datos a la vista que se llama edit
-                return view('almacen.salidas.editsinsinco', compact('salida',  'proyectos_usuario'));
-        
-    }
-
-
     /**
      * Update the specified resource in storage.
      */
@@ -170,29 +130,7 @@ class SalidaController extends Controller
       //  dd($request->all());
         //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
         Salida::find($id)->update($request->all());
-       // $salida_act = Salida::find($id);
-       $salida = Salida::find($id);
-        $email_almacenista=$salida->Proyecto->Email_almacenista;
-        $email_coord_administrativo=$salida->Proyecto->Email_coord_administrativo;
-        Mail::to($email_almacenista)->send(new SalidaMaterialEdicion($salida));
-        Mail::to($email_coord_administrativo)->send(new SalidaMaterialEdicion($salida));
         return to_route('salida.index');
-    }
-
-    public function updatesinsinco(SalidaRequest $request, String $id)
-    {
-      //  dd($request->all());
-        //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
-        Salida::find($id)->update($request->all());
-        $salida = Salida::find($id);
-       
-        $email_almacenista=$salida->Proyecto->Email_almacenista;
-        $email_coord_administrativo=$salida->Proyecto->Email_coord_administrativo;
-
-        Mail::to($email_almacenista)->send(new SalidaMaterialEdicion($salida));
-        Mail::to($email_coord_administrativo)->send(new SalidaMaterialEdicion($salida));
-        return to_route('salida.indexsinsinco');
-        
     }
 
     /**
@@ -202,9 +140,9 @@ class SalidaController extends Controller
     {
       
         Salida::destroy($id);
-        //Le pasamos a la vista index dos variables, para validar, si el registro  fue eliminado y mostrar el mensaje de eliminado correctamente
-        return to_route('salida.index')->with('eliminar', 'ok');
+        return to_route('salida.index');
     }
+
 
     public function indexaprobarsalidaalmacen()
     { 
@@ -219,10 +157,11 @@ class SalidaController extends Controller
             $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
         }
        // dd($salidas)
-        return view ('almacen.salidas.AprobAlmacen', compact('salidas'));
+        return view ('almacen.salidas.AprobAlmacen.blade', compact('salidas'));
     }
 
-    public function aprobarsalidaalmacen(Request $request, Salida $salida)
+
+    public function aprobalmacen(Request $request, Salida $salida)
     {
         //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
         //Salida::find($id)->update('estado'=>$id['aprobado']);
@@ -236,44 +175,7 @@ class SalidaController extends Controller
         
         $salida->update($request->all());
 
-        return to_route('Rindex.salida.aprob.almacenista');
+        return to_route('salida.index');
     }
-
-        
-    public function indexaprobarsalidacooradmin()
-    { 
-
-        $materiales = DB::connection('sqlsrv')->select('SELECT Productos.ProCod, Productos.ProDesc FROM Productos INNER JOIN ADPTiposProductos ON Productos.ProADPTipo = ADPTiposProductos.TipCod
-        INNER JOIN ADPControl ON Productos.ProCod = ADPControl.ConInsumo /*  WHERE( ADPControl.ConClase = "P" ) */GROUP BY Productos.ProDesc, ADPTiposProductos.TipDesc,
-        ADPTiposProductos.TipOrden, Productos.ProUnidadCont, Productos.ProCod, Productos.ProADPTipo ORDER BY Productos.ProDesc');
-
-        $salidas = Salida::all();
-        //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
-        foreach ($salidas as $salida) {
-            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
-        }
-       // dd($salidas)
-        return view ('almacen.salidas.AprobCoordAdmin', compact('salidas'));
-    }
-
-    public function aprobarsalidacoordadmin(Request $request, Salida $salida)
-    {
-        //Salida es el modelo, le mandamos el id, para que busque  la salida a actualizar, y le mandamos al update, todos los datos
-        //Salida::find($id)->update('estado'=>$id['aprobado']);
-
-        //dd($id);
-        /*
-		DB::table('salidas')
-        ->where("salidas.id", '=',  $id)
-        ->update(['salidas.estado'=> 'aprobado']);
-        */
-        
-        $salida->update($request->all());
-
-        return to_route('Rindex.salida.aprob.coordadmin');
-    }
-    
-
-
 }
 

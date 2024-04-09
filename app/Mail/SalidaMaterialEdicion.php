@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Salida;
 
-class SalidaMaterial extends Mailable
+class SalidaMaterialEdicion extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
@@ -20,6 +20,7 @@ class SalidaMaterial extends Mailable
     public function __construct($user)
     {
         $this->user=$user;
+
     }
 
     /**
@@ -29,6 +30,7 @@ class SalidaMaterial extends Mailable
     {
         return new Envelope(
             subject: 'Creación / Modificación Salida Material',
+     
         );
     }
 
@@ -37,10 +39,12 @@ class SalidaMaterial extends Mailable
      */
     public function content(): Content
     {
+       
         return new Content(
+                              
             view: 'emails.salidaMaterial',
                 with:[
-                  
+
                     'salida' =>Salida::latest()->first()
                 ]
         );

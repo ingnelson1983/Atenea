@@ -338,6 +338,16 @@ return [
                         'icon_color' => 'blue',
                     ],
                     [
+                        'text' => 'Listar Salidas Sin Sinco',
+                        'route' => 'salida.indexsinsinco',
+                        'icon_color' => 'blue',
+                    ],
+                    [
+                        'text' => 'Crear Salidas Sin Sinco',
+                        'route' => 'salida.createsinco',
+                        'icon_color' => 'blue',
+                    ],
+                    [
                         'text' => 'Aprobar/Almacenista',
                         'route' => 'Rindex.salida.aprob.almacenista',
                         'icon_color' => 'blue',

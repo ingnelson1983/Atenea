@@ -75,6 +75,11 @@ Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name
 Route::detele('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 */
 
+Route::get('/salidas/{salida}/editsinsinco', [SalidaController::class, 'editsinsinco'])->name('salida.editsinsinco');
+Route::put('/salidassinsinco/{salida}', [SalidaController::class, 'updatesinsinco'])->name('salida.updatesinsinco');
+Route::get('/almacen/salidas/indexsinsinco', [SalidaController::class, 'indexsinsinco'])->name('salida.indexsinsinco');
+Route::get('/almacen/salidas/createsinco', [SalidaController::class, 'createsinsinco'])->name('salida.createsinco');
+Route::post('/almacen/salidas/storesinsinco', [SalidaController::class, 'storesinsinco'])->name('salidasinsinco.store');
 
     Route::resource('/almacen/salidas/salida', SalidaController::class)->names('salida');
     Route::apiResource("v1/salidas", App\Http\Controllers\Api\V1\SalidaController::class);
