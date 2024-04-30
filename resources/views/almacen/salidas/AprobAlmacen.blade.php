@@ -20,20 +20,18 @@
 
   
 
-    <table  id="tsalidas" class="table table-striped" style="width:100%">
+    <table  id="tsalidas" class="table table-striped " style="width:90%">
       <!-- head -->
       
       <thead>
             <tr>
-            <th>Proyecto Origen</th>
-            <th>Fecha Salida</th>
-            <th>Material Sinco</th>
-            <th>Unidad de Medida</th>
-            <th>Cantidad</th>
-            <th>Destino</th>
-            <th>Descripcion</th>
-            <th>Estado</th>
-            <th>Aprobar Almacenista</th>
+              <th style="width:10%">Proyecto</th>
+              <th style="width:10%">Fecha Salida</th>
+              <th style="width:20%">Material</th>
+              <th style="width:20%">Destino</th>
+              <th style="width:20%">Descripcion</th>
+              <th style="width:10%">Estado</th>
+              <th style="width:10%">Aprobar Almacenista</th>
             
                         
 
@@ -47,9 +45,7 @@
             <tr>
                 <td> {{ $salida->Proyecto->Nombre_Proyecto }}</td>
                 <td> {{ $salida->fecha_Salida }}</td>
-                <td> {{ $salida->descripcionSinco }}</td>
-                <td> {{ $salida->unidad_medida }}</td>
-                <td> {{ $salida->cantidad }}</td>
+                <td> <div> {!! $salida->nom_material !!} </div></td>
                 <td> {{ $salida->destino }}</td>
                 <td> {{ $salida->descripcion }}</td>
                 <td> 

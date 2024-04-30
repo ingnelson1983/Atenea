@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Almacen\Salidas;
 use App\Models\Salida;
 use App\Models\User;
 use App\Models\Proyecto;
+use App\Models\Sync;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Almacen\Salidas\SalidaRequest;
 use App\Mail\SalidaMaterial;
@@ -19,6 +20,12 @@ use Illuminate\Support\Facades\DB;
 
 class SalidaController extends Controller
 {
+
+
+    public function _construct()
+    {
+        $this->middleware('can:AprobSalCoordAdmin')->only('aprobarsalidacoordadmin');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -31,9 +38,9 @@ class SalidaController extends Controller
 
         $salidas = Salida::all();
         //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
-        foreach ($salidas as $salida) {
+       /* foreach ($salidas as $salida) {
             $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
-        }
+        }*/ 
        // dd($salidas)
         return view ('almacen.salidas.index', compact('salidas'));
     }
@@ -215,9 +222,9 @@ class SalidaController extends Controller
 
         $salidas = Salida::all();
         //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
-        foreach ($salidas as $salida) {
-            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
-        }
+        //foreach ($salidas as $salida) {
+        //    $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+       // }
        // dd($salidas)
         return view ('almacen.salidas.AprobAlmacen', compact('salidas'));
     }
@@ -249,9 +256,9 @@ class SalidaController extends Controller
 
         $salidas = Salida::all();
         //para cada una de las salidas que se consulta en la bd, se agrega un campo nuevo llamado DescripionSinco
-        foreach ($salidas as $salida) {
-            $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
-        }
+       // foreach ($salidas as $salida) {
+         //   $salida->descripcionSinco = collect($materiales)->where('ProCod', $salida->cod_material_sinco)->first()->ProDesc;
+        //}
        // dd($salidas)
         return view ('almacen.salidas.AprobCoordAdmin', compact('salidas'));
     }
@@ -272,7 +279,35 @@ class SalidaController extends Controller
 
         return to_route('Rindex.salida.aprob.coordadmin');
     }
+
+
+    public function ConsultarInsumos()
+    {
+
+        $empresas = Sync::select('Cod_Empresa','Nom_Empresa')->groupBy('Cod_Empresa')->get();
+
+      return view('almacen.salidas.ConsultarInsumos', compact('empresas'));
+    }
     
+    public function cargarObras($empresaId)
+    {
+        $obras = Sync::select('Codigo_Obra', 'Nombre_Obra')->where('Cod_Empresa', $empresaId)->groupBy('Codigo_Obra')->get();
+        //dd($obras->Nombre_Obra);
+        return view('almacen.salidas.partials.obras', compact('obras'));
+    }
+
+    public function cargarInsumos($obraId)
+    {
+        //aca estaba el error decia Codigo_Obra
+        $insumos = Sync::select('Cod_Insumo', 'Nombre_Insumo')->where('Codigo_Obra', $obraId)->groupBy('Cod_Insumo')->get();
+        return view('almacen.salidas.partials.insumos', compact('insumos'));
+    }
+
+    public function cargarItems($insumoId)
+    {
+        $items = Sync::select('Cod_Item', 'Nombre_Item', 'Cod_Nom_Destino_Item')->where('Cod_Insumo', $insumoId)->get();
+        return view('almacen.salidas.partials.items', compact('items'));
+    }
 
 
 }

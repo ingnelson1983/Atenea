@@ -26,9 +26,7 @@ class SalidaRequest extends FormRequest
                 'id_usu'=>'required|numeric',
                 'proyecto_id'=>'required|numeric',
                 'fecha_Salida'=>'required',
-                 'nom_material'=>'required',
-                'unidad_medida'=>'required',
-                'cantidad'=>'required|numeric',
+                'nom_material'=>'required',
                 'destino'=>'required',
                 'descripcion'=>'required',
                 'estado'=>'required',
@@ -46,7 +44,7 @@ class SalidaRequest extends FormRequest
             'required'=>'El campo e s obligatorio',
             'id_usu.numeric'=>'El campo debe ser un numero',
             'proyecto_id.numeric'=>'El campo debe ser un numero',
-            'cantidad.numeric'=>'El campo debe ser un numero'
+
         ];
 
     }

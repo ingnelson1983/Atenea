@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notifications;
 class Salida extends Model
 {
     use HasFactory;
-    protected $fillable=['id_usu', 'proyecto_id', 'fecha_Salida', 'cod_material_sinco', 'nom_material', 'unidad_medida', 'cantidad', 'destino', 'descripcion', 'estado'];
+    protected $fillable=['id_usu', 'proyecto_id', 'fecha_Salida', 'nom_material', 'destino', 'descripcion', 'estado'];
 
        public function proyecto()
     {

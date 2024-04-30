@@ -75,30 +75,32 @@ Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name
 Route::detele('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 */
 
-Route::get('/salidas/{salida}/editsinsinco', [SalidaController::class, 'editsinsinco'])->name('salida.editsinsinco');
-Route::put('/salidassinsinco/{salida}', [SalidaController::class, 'updatesinsinco'])->name('salida.updatesinsinco');
-Route::get('/almacen/salidas/indexsinsinco', [SalidaController::class, 'indexsinsinco'])->name('salida.indexsinsinco');
-Route::get('/almacen/salidas/createsinco', [SalidaController::class, 'createsinsinco'])->name('salida.createsinco');
-Route::post('/almacen/salidas/storesinsinco', [SalidaController::class, 'storesinsinco'])->name('salidasinsinco.store');
+Route::get('/salidas/{salida}/editsinsinco', [SalidaController::class, 'editsinsinco'])->name('salida.editsinsinco')->middleware('auth');
+Route::put('/salidassinsinco/{salida}', [SalidaController::class, 'updatesinsinco'])->name('salida.updatesinsinco')->middleware('auth');
+Route::get('/almacen/salidas/indexsinsinco', [SalidaController::class, 'indexsinsinco'])->name('salida.indexsinsinco')->middleware('auth');
+Route::get('/almacen/salidas/createsinco', [SalidaController::class, 'createsinsinco'])->name('salida.createsinco')->middleware('auth');
+Route::post('/almacen/salidas/storesinsinco', [SalidaController::class, 'storesinsinco'])->name('salidasinsinco.store')->middleware('auth');
 
-    Route::resource('/almacen/salidas/salida', SalidaController::class)->names('salida');
+    Route::resource('/almacen/salidas/salida', SalidaController::class)->names('salida')->middleware('auth');
     Route::apiResource("v1/salidas", App\Http\Controllers\Api\V1\SalidaController::class);
         
-    Route::put('/almacen/salidas/aprobalamacen/{salida?}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista');
+    Route::put('/almacen/salidas/aprobalamacen/{salida?}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista')->middleware('auth');
   
-     Route::get('/almacen/salidas/aprobalamacen/index', [SalidaController::class, 'indexaprobarsalidaalmacen'])->name('Rindex.salida.aprob.almacenista');
-     Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista');
+     Route::get('/almacen/salidas/aprobalamacen/index', [SalidaController::class, 'indexaprobarsalidaalmacen'])->name('Rindex.salida.aprob.almacenista')->middleware('auth');
+     Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobarsalidaalmacen'])->name('Rsalida.aprob.almacenista')->middleware('auth');
 
-     Route::get('/almacen/salidas/aprobcoordadmin/index', [SalidaController::class, 'indexaprobarsalidacooradmin'])->name('Rindex.salida.aprob.coordadmin');
-     Route::put('/almacen/salidas/aprobcoordadmin/{salida}', [SalidaController::class, 'aprobarsalidacoordadmin'])->name('Rsalida.aprob.coordadmin');
+     Route::get('/almacen/salidas/aprobcoordadmin/index', [SalidaController::class, 'indexaprobarsalidacooradmin'])->name('Rindex.salida.aprob.coordadmin')->middleware('auth');
+     Route::put('/almacen/salidas/aprobcoordadmin/{salida}', [SalidaController::class, 'aprobarsalidacoordadmin'])->name('Rsalida.aprob.coordadmin')->middleware('auth');
+     Route::get('/almacen/ConsultarInsumos', [SalidaController::class, 'ConsultarInsumos'])->name('ConsultarInsumos')->middleware('auth');
+     Route::get('/almacen/ConsultarInsumos/obras/{empresa}', [SalidaController::class, 'cargarObras'])->name('ConsultarInsumos.cargarObras')->middleware('auth');
+     Route::get('/almacen/ConsultarInsumos/insumos/{obra}', [SalidaController::class, 'cargarInsumos'])->name('ConsultarInsumos.cargarInsumos')->middleware('auth');
+     Route::get('/almacen/ConsultarInsumos/items/{insumo}', [SalidaController::class, 'cargarItems'])->name('ConsultarInsumos.cargarItems')->middleware('auth');
 
-
-
-   Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobalmacen'])->name('salidas.aprobar.almacenista');
+   Route::put('/almacen/salidas/aprobalamacen/{salida}', [SalidaController::class, 'aprobalmacen'])->name('salidas.aprobar.almacenista')->middleware('auth');
 
 
     //Ruta para  que llama al controlador, proyectocontroller y al metodo listar usuario proyecto y asociar usuario a proyectos
-    Route::get('/usuario/proyectos/{usuario?}', [ProyectoController::class, 'listarUsuarioProyecto'])->name('listarusuariosproyectos');
+    Route::get('/usuario/proyectos/{usuario?}', [ProyectoController::class, 'listarUsuarioProyecto'])->name('listarusuariosproyectos')->middleware('auth');
     //Route::get('/General/proyectos2/{usuario}', [ProyectoController::class, 'listarUsuarioProyecto'])->name('usuarioProyectos2');
 
     Route::post('/usuario/proyectos/{usuario}', [ProyectoController::class, 'asignarProyectosUsuario'])->name('asignarProyectosUsuario')->middleware('auth');

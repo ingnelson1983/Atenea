@@ -16,13 +16,7 @@
              <b> Nombre Proyecto:</b> {{$salida->Proyecto->Nombre_Proyecto}}<br>
         </tr>
         <tr>  
-            <b> Nombre Material:</b>  {{$salida->nom_material}}<br>
-        </tr>
-        <tr>             
-            <b>  Unidad de Medida:</b> {{$salida->unidad_medida}}<br>
-        </tr>
-        <tr>   
-            <b> Cantidad:</b> {{$salida->cantidad}}<br>
+            <b> Nombre Material:</b>  <div> {!! $salida->nom_material !!} </div><br>
         </tr>
         <tr>   
             <b>  Destino:</b> {{$salida->destino }}<br>

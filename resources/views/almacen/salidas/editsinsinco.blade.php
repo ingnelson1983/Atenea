@@ -56,14 +56,9 @@
                 </div>
 
     <div>
-        {{-- With prepend slot --}}
-<x-adminlte-input name="nom_material" label="Materiales" placeholder="Materiales" label-class="text-lightblue" value="{{$salida->nom_material}}">
-        <x-slot name="prependSlot">
-        <div class="input-group-text">
-                <i class="fas fa-user text-lightblue"></i>
-        </div>
-        </x-slot>
-</x-adminlte-input>
+
+
+        <textarea name="nom_material" id="nom_material" cols="5" rows="5">{{$salida->nom_material}}</textarea>
 
         @if ($errors->has('nom_material'))
                 <div class="badge badge-warning gap-2">
@@ -71,47 +66,7 @@
                 </div>
         @endif
 </div>
-
-
-                <div>
-                        {{-- With prepend slot --}}
-                <x-adminlte-input name="unidad_medida" label="Unidad de Medida" placeholder="Unidad de Medida" label-class="text-lightblue" value="{{$salida->unidad_medida}}">
-                        <x-slot name="prependSlot">
-                        <div class="input-group-text">
-                                <i class="fas fa-user text-lightblue"></i>
-                        </div>
-                        </x-slot>
-                </x-adminlte-input>
-
-                        @if ($errors->has('unidad_medida'))
-                                <div class="badge badge-warning gap-2">
-                                <p>{{$errors->first('unidad_medida')}}</p>
-                                </div>
-                        @endif
-                </div>
-
-
-                <div>
-                        <x-adminlte-input ID="cantidad"  name="cantidad" label="Cantidad" placeholder="Ingrese Aqui la cantidad" type="number" label-class="text-lightblue"
-                                igroup-size="sm" min=1 value="{{$salida->cantidad}}">
-                                <x-slot name="prependSlot">
-                                        <div class="input-group-text">
-                                        <i class="fas fa-hashtag text-lightblue"></i>
-                                        </div>
-                                </x-slot>
-
-                                @if ($errors->has('cantidad'))
-                                <div class="badge badge-warning gap-2">
-                                        <p>{{$errors->first('cantidad')}}</p>
-                                </div>
-                                @endif
-                        </x-adminlte-input>
-
-                </div>
-
-
-
-                
+              
                 <div>
                         {{-- With prepend slot --}}
                 <x-adminlte-input name="destino" label="Destino" placeholder="Destino" label-class="text-lightblue" value="{{$salida->destino}}">
@@ -170,16 +125,28 @@
 
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
 @endsection
 
 
 @section('js')
 
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(".js-example-tags").select2({
     tags: true
   });
   </script>
+<script>
+    $('#nom_material').summernote({
+        placeholder: 'Liste Materiales, Cantidades y Unidad de Medida..',
+        tabsize:0,
+        height:100
+    });
+</script>
 @endsection

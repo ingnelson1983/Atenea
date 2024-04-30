@@ -16,10 +16,7 @@ return new class extends Migration
             $table->integer('id_usu');
             $table->foreignId('proyecto_id')->constrained();
             $table->dateTime('fecha_Salida', $precision = 0)->nullable();
-            $table->integer('cod_material_sinco')->nullable()->default(101);
-            $table->text('nom_material', 1000)->nullable();
-            $table->string('unidad_medida', 100)->nullable();
-            $table->integer('cantidad')->nullable();
+            $table->longText('nom_material')->nullable();
             $table->string('destino', 200)->nullable();
             $table->string('descripcion', 200)->nullable();
             $table->String('estado')->nullable()->default('Generada');

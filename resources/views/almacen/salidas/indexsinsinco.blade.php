@@ -20,21 +20,19 @@
 
 
 
-    <table  id="tsalidas" class="table table-striped" style="width:100%">
+    <table  id="tsalidas" class="table table-striped " style="width:90%">
       <!-- head -->
       
       <thead>
             <tr>
-            <th>Proyecto Origen</th>
-            <th>Fecha Salida</th>
-            <th>Material Sinco</th>
-            <th>Unidad de Medida</th>
-            <th>Cantidad</th>
-            <th>Destino</th>
-            <th>Descripcion</th>
-            <th>Estado</th>
-            <th>Editar</th>
-            <th>Eliminar</th>                      
+            <th style="width:10%">Proyecto</th>
+            <th style="width:10%">Fecha Salida</th>
+            <th style="width:20%">Material</th>
+            <th style="width:20%">Destino</th>
+            <th style="width:20%">Descripcion</th>
+            <th style="width:10%">Estado</th>
+            <th style="width:5%">Editar</th>
+            <th style="width:5%">Eliminar</th>                      
 
             </tr>
       </thead>
@@ -44,16 +42,14 @@
                 <!-- row 1 -->
         @foreach ($salidas as $salida)
             <tr>
-                <td> {{ $salida->proyecto_id }}</td>
+                <td> {{ $salida->Proyecto->Nombre_Proyecto }}</td>
                 <td> {{ $salida->fecha_Salida }}</td>
-                <td> {{ $salida->nom_material }}</td>
-                <td> {{ $salida->unidad_medida }}</td>
-                <td> {{ $salida->cantidad }}</td>
+                <td> <div> {!! $salida->nom_material !!} </div></td>
                 <td> {{ $salida->destino }}</td>
                 <td> {{ $salida->descripcion }}</td>
                 <td> 
                   @if ($salida->estado == "Generada")
-                    <button class="btn btn-warning">Generada</button>
+                    <button class="btn btn-warning btn-sm">Generada</button>
                   @endif
                   @if ($salida->estado == "AprobadaAlmacenista")
                     <button class="btn btn-info">Aprob Almacen</button>
@@ -66,7 +62,7 @@
                @if ($salida->estado == "Generada")              
                 <td> 
                   <a href="{{route('salida.editsinsinco', $salida->id)}}">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="15px" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15px"  fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
                       </a>

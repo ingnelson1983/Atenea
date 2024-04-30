@@ -327,34 +327,34 @@ return [
                 'url' => '#',
                 'icon_color' => 'yellow',
                 'submenu' => [
+
                     [
                         'text' => 'Listar Salidas',
-                        'route' => 'salida.index',
-                        'icon_color' => 'blue',
-                    ],
-                    [
-                        'text' => 'Crear Salidas',
-                        'route' => 'salida.create',
-                        'icon_color' => 'blue',
-                    ],
-                    [
-                        'text' => 'Listar Salidas Sin Sinco',
                         'route' => 'salida.indexsinsinco',
                         'icon_color' => 'blue',
+                        'can'         => 'Salida_Almacen_Crud'
                     ],
                     [
-                        'text' => 'Crear Salidas Sin Sinco',
+                        'text' => 'Crear Salida',
                         'route' => 'salida.createsinco',
                         'icon_color' => 'blue',
+                        'can'         => 'Salida_Almacen_Crud'
                     ],
                     [
                         'text' => 'Aprobar/Almacenista',
                         'route' => 'Rindex.salida.aprob.almacenista',
                         'icon_color' => 'blue',
+                        'can'         => 'AprobSalAlmacen'
                     ],
                     [
                         'text' => 'Aprobar/Coord Admin',
                         'route' => 'Rindex.salida.aprob.coordadmin',
+                        'icon_color' => 'blue',
+                        'can'         => 'AprobSalCoordAdmin'
+                    ],
+                    [
+                        'text' => 'Consultar Insumos',
+                        'route' => 'ConsultarInsumos',
                         'icon_color' => 'blue',
                     ],
 
@@ -373,12 +373,13 @@ return [
             [
             'text' => 'Asignar Usu/Pro',
             'route' => 'listarusuariosproyectos',
+            'can'         => 'Usuario/Proyectos'
             ],
 
     ],    
 ],
 
-
+/*
 ['header' => 'account_settings'],
 [
     'text' => 'profile',
@@ -391,6 +392,7 @@ return [
     'url' => 'admin/settings',
     'icon' => 'fas fa-fw fa-lock',
 ],
+*/
 
 ],
 
