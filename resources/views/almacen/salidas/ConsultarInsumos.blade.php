@@ -39,7 +39,7 @@
         function cargarObras() {
             var empresaId = document.getElementById('empresaSelect').value;
             if (empresaId) {
-                fetch(`/almacen/ConsultarInsumos/obras/${empresaId}`)  // Asegura el uso de comillas correctas
+                fetch(`/atenea-cfc/almacen/ConsultarInsumos/obras/${empresaId}`)  // Asegura el uso de comillas correctas
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('obraSelect').innerHTML = html;
@@ -56,7 +56,7 @@
     
         function cargarInsumos(obraId) {
             if (obraId) {
-                fetch(`/almacen/ConsultarInsumos/insumos/${obraId}`)  // Asegura el uso de comillas correctas
+                fetch(`/atenea-cfc/almacen/ConsultarInsumos/insumos/${obraId}`)  // Asegura el uso de comillas correctas
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('insumoSelect').innerHTML = html;
@@ -71,7 +71,7 @@
     
         function cargarItems(insumoId) {
             if (insumoId) {
-                fetch(`/almacen/ConsultarInsumos/items/${insumoId}`)  // Asegura el uso de comillas correctas
+                fetch(`/atenea-cfc/almacen/ConsultarInsumos/items/${insumoId}`)  // Asegura el uso de comillas correctas
                     .then(response => response.text())
                     .then(html => document.getElementById('itemSelect').innerHTML = html);
             } else {
