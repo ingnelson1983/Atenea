@@ -11,7 +11,7 @@
 @section('content')
 
 {{-- En este select el evento Onchange, lo que hace es llamar la Url. This.value, es el id del usuario que se seleeciona en el select--}}
-<select name="select_user" id="select_user" class="form-control"  onchange="window.location.href = '/usuario/proyectos/'+this.value+''">
+<select name="select_user" id="select_user" class="form-control"  onchange="window.location.href = '/Atenea-cfc/public/usuario/proyectos/'+this.value+''">
     <option value="">Seleccione un usuario</option>
    {{-- Cuando se eestan listando todos los usuarios en el combobox, cada uno va  a quedar almacenado en la variable user, cuando se recorre --}}
     @foreach ($usuarios as $user)
