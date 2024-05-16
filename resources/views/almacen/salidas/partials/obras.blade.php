@@ -8,7 +8,7 @@
                 <i class="fas fa-car-side"></i>
             </div>
         </x-slot>
-        <option value="" class="input input-bordered input-info w-full max-w-xs">Seleccione Obra</option>
+        <option value="" class="input input-bordered input-info w-full max-w-xs">Seleccione Alguna Obra</option>
         @foreach ($obras as $obra)
             <option value="{{ $obra->Codigo_Obra }}" class="input input-bordered input-info w-full max-w-xs">{{ $obra->Nombre_Obra }}</option>
         @endforeach
