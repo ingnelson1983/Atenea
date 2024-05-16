@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \Gate::define('Salida_Almacen_Crud', function ($user) {
-            if (auth()->user()->rol->nombre == 'Admin' or auth()->user()->rol->nombre == 'Inspector') {
+            if (auth()->user()->rol->nombre == 'Admin' or auth()->user()->rol->nombre == 'Inspector' or auth()->user()->rol->nombre == 'Coordinador_Administrativo') {
                 return true;
             }
             return false;

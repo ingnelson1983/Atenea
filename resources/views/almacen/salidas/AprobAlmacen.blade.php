@@ -61,7 +61,7 @@
                  </td>
                      
                   <td> 
-                    @if (auth()->user()->rol->nombre == 'Admin')
+                    @if (auth()->user()->rol->nombre == 'Admin' or auth()->user()->rol->nombre == 'Almacenista')
                       <form action="{{route('Rsalida.aprob.almacenista', $salida->id)}}" method="post">
                               @csrf
                               @method('put')
