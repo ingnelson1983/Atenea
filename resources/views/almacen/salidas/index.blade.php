@@ -78,7 +78,7 @@
                  </td> 
                  @endif
                  <td> 
-                    @if (auth()->user()->rol->nombre == 'Admin')
+
                       <form action="{{route('salida.destroy', $salida->id)}}" method="post" class="formulario-eliminar">
                               @csrf
                               @method('DELETE')
@@ -92,7 +92,7 @@
                               <p style="color:#FF0000";>No se puede Eliminar!</p> 
                               @endif
                       </form>
-                      @endif
+
                   </td>     
             </tr>
         @endforeach
